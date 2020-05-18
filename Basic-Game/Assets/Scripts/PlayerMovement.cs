@@ -5,15 +5,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody rb;
+    public PlayerCollision collision;
 
     public float forwardForce;
     public float sidewaysForce;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float upForce;
 
     // Update is called once per frame
     void FixedUpdate()
@@ -22,12 +18,17 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetKey("d"))
         {
-            rb.AddForce(sidewaysForce * Time.deltaTime, 0, 0);
+            rb.AddForce(sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
         }
 
         if (Input.GetKey("a"))
         {
-            rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0);
+            rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
+        }
+
+        if (Input.GetKey(KeyCode.Space) && collision.onGround == true)
+        {
+            rb.AddForce(0, upForce, 0, ForceMode.Impulse);
         }
     }
 }
